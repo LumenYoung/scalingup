@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+
+  scalingup:
+    image: nvidia/cuda:12.3.1-devel-ubuntu22.04
+    container_name: scalingup
+    tty: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              # count: 1
+              capabilities: [gpu]
+              device_ids: ['0','1']
+
+    volumes:
+      - ./:/repo
+      - ../:/root/llm # assume it is in the submodule of main repo
+      - /export/home/yang/memory/primary_experiment:/home/yang/memory_storage
+    shm_size:  '7.85gb'
